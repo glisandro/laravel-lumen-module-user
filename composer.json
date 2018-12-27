@@ -1,0 +1,12 @@
+{
+	"autoload": {
+		"psr-4": {
+			"Glisandro\\ModuleUser\\": "src/"
+		}
+	},
+	"require": {
+		"illuminate/database": "^5.7",
+		"illuminate/http": "^5.7",
+		"illuminate/routing": "^5.7"
+	}
+}
