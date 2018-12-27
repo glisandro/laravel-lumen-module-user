@@ -1,4 +1,5 @@
 {
+	"name": "glisandro/laravel-lumen-module-user",
 	"autoload": {
 		"psr-4": {
 			"Glisandro\\ModuleUser\\": "src/"
