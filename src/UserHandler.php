@@ -2,42 +2,50 @@
 
 namespace Glisandro\ModuleUser;
 
+use Validator;
+
 class UserHandler
 {
-
     protected $data = null;
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param $user
+     * @return mixed
+     * @throws \Exception
      */
     public function store($user)
     {
         if ($this->data === null){
-            throw Exception('No data to store');
+            throw new \Exception('No data to store');
         }
 
         $user->firstName = $this->data['firstName'];
         $user->lastName = $this->data['lastName'];
         $user->email = $this->data['email'];
         $user->phoneNumber = $this->data['phoneNumber'];
+
         return $user->save();
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $request
+     * @return mixed
      */
     public function validate($request)
     {
-        $this->data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstName' => 'required|min:3|max:50',
             'lastName' => 'required|min:3|max:50',
             'email' => 'required|unique:users',
             'phoneNumber' => 'nullable|numeric'
         ]);
+
+        if ($validator->fails()) {
+            return false;
+        }
+
+        $this->data = $validator->getData();
+
+        return true;
     }
 }

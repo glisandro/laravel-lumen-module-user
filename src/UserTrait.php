@@ -11,7 +11,7 @@ trait UserTrait
 
     public function getPhoneAttribute()
     {
-        return ($this->phoneNumber) ?? 'No Data';
+        return !empty($this->phoneNumber) ? $this->phoneNumber : 'No Data';
     }
 }
 
