@@ -2,7 +2,7 @@
 
 namespace Glisandro\ModuleUser;
 
-use Validator;
+use Glisandro\ModuleUser\Validation\Laravel;
 
 class UserHandler
 {
@@ -33,19 +33,15 @@ class UserHandler
      */
     public function validate($request)
     {
-        $validator = Validator::make($request->all(), [
-            'firstName' => 'required|min:3|max:50',
-            'lastName' => 'required|min:3|max:50',
-            'email' => 'required|unique:users',
-            'phoneNumber' => 'nullable|numeric'
-        ]);
+        $class = "Glisandro\\ModuleUser\\Validation\\".ucfirst(env('framework'));
+        
+        $data = $class::validate($request);
 
-        if ($validator->fails()) {
-            return false;
+        if($data){
+            $this->data = $data;
+            return true;
         }
 
-        $this->data = $validator->getData();
-
-        return true;
+        return false;
     }
 }
